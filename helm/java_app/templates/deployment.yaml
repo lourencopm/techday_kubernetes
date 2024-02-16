@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-server
+  labels:
+    app: app-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-server
+  template:
+    metadata:
+      labels:
+        app: app-server
+    spec:
+      containers:
+      - name: app-server
+        image: kubernetes-java_app:latest
+        imagePullPolicy: Never
+        ports:
+        - name: http
+          containerPort: 8080
+        command: ["java"]
+        args: ["-jar", "/app.jar", "--spring.config.location=file:/home/app/application.properties"]
+        env:
+        - name: GREETING_TEXT
+          value: Hey fella!
+        - name: DB_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: server
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: port
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: name
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: user
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: pass
+        volumeMounts:
+        - name: configs
+          mountPath: /home/app/application.properties
+          subPath: application.properties
+      volumes:
+      - name: configs
+        configMap:
+          name: app-configs
