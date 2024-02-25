@@ -8,4 +8,5 @@ RUN mkdir /home/app
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","/app.jar","--spring.config.location=file:/home/app/application.properties"]
+#ENTRYPOINT ["java","-jar","/app.jar","--spring.config.location=file:/home/app/application.properties"]
+ENTRYPOINT ["java","-jar","/app.jar"]

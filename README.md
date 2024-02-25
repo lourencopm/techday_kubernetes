@@ -3,7 +3,7 @@
 ## Package the app:
 `.\mvnw package`
 
-# Run the app with Docker
+## Run the app with Docker
 
 ## Build the app and DB using docker compose:
 `docker compose build`
@@ -12,6 +12,14 @@
 `docker compose up`
 
 Access http://localhost:8080
+
+## Namespaces
+
+Create the namespace:<br />
+`kubectl create namespace techday`
+
+Set current namespace:<br />
+`kubectl config set-context --current --namespace=techday`
 
 
 ## Pods
@@ -34,6 +42,36 @@ See the pod definition: <br />
 
 ## Deployments
 
+Create the DB deploy: <br />
+`kubectl create deployment db --image=db:v1 --port=5432`
+
+Create the APP deploy with two replicas: <br />
+`kubectl create deployment app --image=app:v1 --port=8080 --replicas=2`
+
+Get the deploys in the current namespace: <br />
+`kubectl get deployment`
+
+
+## Secrets
+
+Create secret:<br />
+
+`kubectl create secret generic appSecret --from-literal=user=postgres`
+
+
+## Services:
+
+Create service for the DB:<br />
+`kubectl expose deployment/db --port=5432`
+
+Create service for the APP:<br />
+`kubectl expose deployment/app --port=8080`
+
+
+## Ingress:
+
+Create ingress: <br />
+`kubectl create ingress app --rule=/*=app:8080`
 
 ## Readyness and Liveness
 
@@ -69,3 +107,9 @@ See the deploy status:  <br />
 
 Undo the latest deploy to the previous version: <br />
 `kubectl rollout undo deployments/app`
+
+
+## Helm
+
+Install/Upgrade helm chart:<br />
+`helm upgrade --install <release name> --vales <values filee> <chart directory>`
