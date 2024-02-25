@@ -1,6 +1,6 @@
 apiVersion: v2
-name: app
-description: Java App Helm Chart for kubernetes techday
+name: k8s-techday
+description: Helm Chart for kubernetes techday
 type: application
 version: 0.0.1
 appVersion: "0.0.1"

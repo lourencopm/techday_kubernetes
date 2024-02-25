@@ -1,0 +1,11 @@
+greeting: Helm, again...
+
+db:
+  image: kubernetes-db:latest
+
+app:
+  image: kubernetes-java_app:latest
+  db:
+    server: db-service
+    port: 5432
+    name: app_db

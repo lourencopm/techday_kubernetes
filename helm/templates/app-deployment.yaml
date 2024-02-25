@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: app-server
-        image: kubernetes-java_app:latest
+        image: {{ .Values.app.image }}
         imagePullPolicy: Never
         ports:
         - name: http
@@ -25,22 +25,13 @@ spec:
         args: ["-jar", "/app.jar", "--spring.config.location=file:/home/app/application.properties"]
         env:
         - name: GREETING_TEXT
-          value: Hey fella!
+          value: {{ .Values.greeting }}
         - name: DB_SERVER
-          valueFrom:
-            secretKeyRef:
-              name: db-secrets
-              key: server
+          value: {{ .Values.app.db.server }}
         - name: DB_PORT
-          valueFrom:
-            secretKeyRef:
-              name: db-secrets
-              key: port
+          value: {{ .Values.app.db.port | quote }}
         - name: DB_NAME
-          valueFrom:
-            secretKeyRef:
-              name: db-secrets
-              key: name
+          value: {{ .Values.app.db.name }}
         - name: DB_USER
           valueFrom:
             secretKeyRef:
